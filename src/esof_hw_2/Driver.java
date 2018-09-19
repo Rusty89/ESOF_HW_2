@@ -7,6 +7,84 @@ package esof_hw_2;
  */
 import java.util.Scanner;
 
+class Driver {
+
+    public static void main(String[] args) {
+
+        int[] array = {1, 5, 3, 7, 3, 3, 6, 7, 5, 0};
+        Program p1 = null;
+        Scanner input = new Scanner(System.in);
+
+        
+
+        boolean valid = false;
+        while (!valid) {
+            
+            boolean selection1=false;
+            boolean selection2=false;
+            
+            System.out.print("Select a program to run from the list below:\n[1]Matematica\n[2]MTool\n[3]MyMath\n>>");
+            int data = input.nextInt();
+            
+            
+            switch (data) {
+                case 1:
+                    p1 = new Matematica();
+                    selection1=true;
+                    break;
+                case 2:
+                    p1 = new MTool();
+                    selection1=true;
+                    break;
+                case 3:
+                    p1 = new MyMath();
+                    selection1=true;
+                    break;
+                
+                default:
+                    break;
+
+            }
+
+            System.out.print("Select a method of sorting from the list below:\n[1]Bubble Sort\n[2]Merge Sort\n[3]Insertion Sort\n[4]Default\n>>");
+            data = input.nextInt();
+
+            switch (data) {
+                case 1:
+                    p1.changeMethod(new BubbleSort());
+                    selection2=true;
+                    break;
+                case 2:
+                    p1.changeMethod(new MergeSort());
+                    selection2=true;
+                    break;
+                case 3:
+                    p1.changeMethod(new InsertionSort());
+                    selection2=true;
+                    break;
+                case 4:
+                    selection2=true;
+                    break;
+                default:
+                    break;                   
+                    
+                
+            }
+            
+            if (selection1&&selection2){
+                 valid=true;   
+            }
+
+        }
+
+        p1.mathSort(array);
+
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i] + ", ");
+        }
+
+    }
+}
 /////////////////////////////////////////////////////
 abstract class Program implements ISortBehavior {
 
@@ -25,8 +103,6 @@ abstract class Program implements ISortBehavior {
 
 class Matematica extends Program {
 
-    ISortBehavior sb;
-
     public Matematica() {
         sb = new InsertionSort();
         System.out.println("\nMatematica Selected:\ndefault sort method is Insertion Sort\n");
@@ -37,15 +113,12 @@ class Matematica extends Program {
         sb.mathSort(inArray);
     }
 
-    public void changeMethod(ISortBehavior userChoice) {
-        sb = userChoice;
-    }
+    
 }
 //////////////////////////////////////////////////////////
 
 class MTool extends Program {
 
-    ISortBehavior sb;
 
     public MTool() {
         sb = new MergeSort();
@@ -56,16 +129,13 @@ class MTool extends Program {
         sb.mathSort(inArray);
     }
 
-    public void changeMethod(ISortBehavior userChoice) {
-        sb = userChoice;
-    }
+    
 }
 ////////////////////////////////////////////////////////////
 
 class MyMath extends Program {
 
-    ISortBehavior sb;
-
+    
     public MyMath() {
         sb = new BubbleSort();
         System.out.println("\nMyMath Selected:\ndefault sort method is Bubble Sort\n");
@@ -74,10 +144,9 @@ class MyMath extends Program {
     public void mathSort(int[] inArray) {
         sb.mathSort(inArray);
     }
+    
+    
 
-    public void changeMethod(ISortBehavior userChoice) {
-        sb = userChoice;
-    }
 }
 
 ///////////////////////////////////////////////////////////
@@ -91,11 +160,12 @@ interface ISortBehavior {
 class MergeSort implements ISortBehavior {
 
     public MergeSort() {
-        System.out.println("Merge Sort");
     }
 
     public void mathSort(int[] inArray) {
         sort(inArray,0,inArray.length-1);
+        
+        System.out.println("Merge Sort");
     }
     
     
@@ -205,7 +275,7 @@ class InsertionSort implements ISortBehavior {
 class BubbleSort implements ISortBehavior {
 
     public BubbleSort() {
-
+        
     }
 
     public void mathSort(int[] inArray) {
@@ -225,78 +295,6 @@ class BubbleSort implements ISortBehavior {
     }
 }
 
-class Driver {
 
-    public static void main(String[] args) {
 
-        int[] array = {1, 5, 3, 7, 3, 3, 6, 7, 5, 0};
-        Program p1 = new Matematica();
-        Scanner input = new Scanner(System.in);
 
-        
-
-        boolean valid = false;
-        while (!valid) {
-            
-            boolean selection1=false;
-            boolean selection2=false;
-            
-            System.out.println("Select a program to run from the list below:\n[1]Matematica\n[2]MTool\n[3]MyMath\n>>");
-            int data = input.nextInt();
-            
-            
-            switch (data) {
-                case 1:
-                    p1 = new Matematica();
-                    selection1=true;
-                    break;
-                case 2:
-                    p1 = new MTool();
-                    selection1=true;
-                    break;
-                case 3:
-                    p1 = new MyMath();
-                    selection1=true;
-                    break;
-                default:
-                    break;
-
-            }
-
-            System.out.println("Select a method of sorting from the list below:\n[1]Bubble Sort\n[2]Merge Sort\n[3]Insertion Sort\n>>");
-            data = input.nextInt();
-
-            switch (data) {
-                case 1:
-                    p1.changeMethod(new BubbleSort());
-                    selection2=true;
-                    break;
-                case 2:
-                    p1.changeMethod(new MergeSort());
-                    selection2=true;
-                    break;
-                case 3:
-                    p1.changeMethod(new InsertionSort());
-                    selection2=true;
-                    break;
-                default:
-                    break;                   
-                    
-                
-            }
-            
-            if (selection1&&selection2){
-                 valid=true;   
-            }
-
-        }
-
-        p1.mathSort(array);
-
-        for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i] + ", ");
-        }
-
-    }
-
-}
